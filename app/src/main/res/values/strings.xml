@@ -2,8 +2,7 @@
     <string name="app_name">MUG Cover</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">MUG Cover</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
@@ -24,4 +23,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="title_activity_float_window">FloatWindowActivity</string>
+
+    <string name="on_off_cover">On / Off</string>
+    <string name="about_title">About</string>
+    <string name="default_config_name">Default Config</string>
 </resources>

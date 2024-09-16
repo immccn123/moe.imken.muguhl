@@ -1,10 +1,7 @@
 package moe.imken.muguhl
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
-import com.google.android.material.snackbar.Snackbar
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -12,29 +9,19 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
-import androidx.activity.result.contract.ActivityResultContracts
 import moe.imken.muguhl.databinding.ActivityMainBinding
+import moe.imken.muguhl.settings.ConfigManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
-    private val requestOverlayPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-
-    private fun requestPermission() {
-        // Min SDK = 23
-        if (!Settings.canDrawOverlays(this)) {
-            val intent = Intent()
-            intent.action = Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-            intent.data = Uri.parse("package:$packageName")
-            requestOverlayPermissionLauncher.launch(intent)
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("debug", ConfigManager(this).getAllConfigs().toString())
+        Log.d("debug", ConfigManager(this).getCurrentConfig().toString())
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -44,16 +31,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            if (!Settings.canDrawOverlays(this)) {
-                requestPermission()
-            } else {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
-                val intent = Intent(this, FloatWindowService::class.java)
-                startService(intent)
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

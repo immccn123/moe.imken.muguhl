@@ -3,8 +3,7 @@
     <string name="app_name">音游上隐条</string>
     <string name="action_settings">设置</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="first_fragment_label">音游上隐条</string>
     <string name="next">下一个</string>
     <string name="previous">上一个</string>
 
@@ -24,4 +23,7 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="on_off_cover">开/关</string>
+    <string name="about_title">关于</string>
+    <string name="default_config_name">默认配置</string>
 </resources>
