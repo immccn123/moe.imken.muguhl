@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MUG Cover</string>
+
     <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">MUG Cover</string>
     <string name="next">Next</string>
@@ -22,9 +25,21 @@
     <string name="attachment_title">Download incoming attachments</string>
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="title_activity_float_window">FloatWindowActivity</string>
+
 
     <string name="on_off_cover">On / Off</string>
-    <string name="about_title">About</string>
     <string name="default_config_name">Default Config</string>
+
+    <string name="version_name" translatable="false">$versionName</string>
+    <string name="copyright">Copyright © Imken &lt;me@imken.moe&gt;. Licensed under AGPL v3.</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_required_desc">The app requires the \"Display over other apps\" permission to function properly. Please enable this permission in your settings to continue using the app.</string>
+    <string name="go_to_settings">Go to Settings</string>
+    <string name="exit">Exit</string>
+    <string name="about_dialog_title">About</string>
+    <string name="about_dialog_content">
+        &lt;p&gt;Copyright © 2023-2024 Imken Luo&lt;/p&gt;&lt;br /&gt;
+        &lt;p&gt;Source Code at &lt;a href="https://github.com/immccn123/moe.imken.muguhl"&gt;https://github.com/immccn123/moe.imken.muguhl&lt;/a&gt;&lt;/p&gt;
+    </string>
+    <string name="close">Close</string>
 </resources>

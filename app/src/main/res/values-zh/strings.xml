@@ -24,6 +24,17 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="on_off_cover">开/关</string>
-    <string name="about_title">关于</string>
+    <string name="action_about">关于</string>
     <string name="default_config_name">默认配置</string>
+    <string name="copyright">版权所有 © Imken；在 AGPL 版本 3 下授权。</string>
+    <string name="permission_required">需要权限</string>
+    <string name="permission_required_desc">本 App 必须开启「在其他应用之上显示」权限才能正常使用。请前往设置开启该权限，以继续使用本应用。</string>
+    <string name="go_to_settings">去设置</string>
+    <string name="exit">退出</string>
+    <string name="about_dialog_title">关于</string>
+    <string name="about_dialog_content">
+        <p>版权所有 © 2023-2024 Imken Luo</p>
+        <p>开放源代码地址：<a href="https://github.com/immccn123/moe.imken.muguhl">https://github.com/immccn123/moe.imken.muguhl</a></p>
+    </string>
+    <string name="close">关闭</string>
 </resources>

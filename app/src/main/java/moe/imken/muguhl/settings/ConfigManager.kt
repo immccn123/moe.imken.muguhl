@@ -3,7 +3,6 @@ package moe.imken.muguhl.settings
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getStringOrNull
 
