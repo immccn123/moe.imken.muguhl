@@ -28,7 +28,7 @@
 
 
     <string name="on_off_cover">On / Off</string>
-    <string name="default_config_name">Default Config</string>
+    <string name="default_preset_name">Default Preset</string>
 
     <string name="version_name" translatable="false">$versionName</string>
     <string name="copyright">Copyright © Imken &lt;me@imken.moe&gt;. Licensed under AGPL v3.</string>

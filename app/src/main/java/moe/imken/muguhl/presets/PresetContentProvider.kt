@@ -1,4 +1,4 @@
-package moe.imken.muguhl.settings
+package moe.imken.muguhl.presets
 
 import android.content.ContentProvider
 import android.content.ContentUris
@@ -9,56 +9,56 @@ import android.graphics.Color
 import android.net.Uri
 import moe.imken.muguhl.R
 
-class SettingsContentProvider : ContentProvider() {
+class PresetContentProvider : ContentProvider() {
 
-    private lateinit var dbHelper: ConfigDatabaseHelper
+    private lateinit var dbHelper: PresetDatabaseHelper
 
     override fun onCreate(): Boolean {
-        dbHelper = ConfigDatabaseHelper(context!!)
+        dbHelper = PresetDatabaseHelper(context!!)
 
         val db = dbHelper.writableDatabase
-        db.query(ConfigContract.ConfigEntry.TABLE_NAME, null, null, null, null, null, null)
+        db.query(PresetContract.PresetEntry.TABLE_NAME, null, null, null, null, null, null)
             .use { cursor ->
                 if (!cursor.moveToFirst()) {
                     val defaultValues = ContentValues().apply {
                         put(
-                            ConfigContract.ConfigEntry.COLUMN_NAME,
-                            context!!.getString(R.string.default_config_name)
+                            PresetContract.PresetEntry.COLUMN_NAME,
+                            context!!.getString(R.string.default_preset_name)
                         )
-                        put(ConfigContract.ConfigEntry.COLUMN_X, 0)
-                        put(ConfigContract.ConfigEntry.COLUMN_Y, 0)
-                        put(ConfigContract.ConfigEntry.COLUMN_WIDTH, 400)
-                        put(ConfigContract.ConfigEntry.COLUMN_HEIGHT, 200)
-                        put(ConfigContract.ConfigEntry.COLUMN_COLOR, Color.GRAY)
+                        put(PresetContract.PresetEntry.COLUMN_X, 0)
+                        put(PresetContract.PresetEntry.COLUMN_Y, 0)
+                        put(PresetContract.PresetEntry.COLUMN_WIDTH, 400)
+                        put(PresetContract.PresetEntry.COLUMN_HEIGHT, 200)
+                        put(PresetContract.PresetEntry.COLUMN_COLOR, Color.GRAY)
                     }
-                    db.insert(ConfigContract.ConfigEntry.TABLE_NAME, null, defaultValues)
+                    db.insert(PresetContract.PresetEntry.TABLE_NAME, null, defaultValues)
                 }
                 cursor.close()
             }
 
         val addDefaultKV = { key: String, value: String ->
             db.query(
-                ConfigContract.KvEntry.TABLE_NAME,
+                PresetContract.KvEntry.TABLE_NAME,
                 null,
-                "${ConfigContract.KvEntry.COLUMN_KEY} = ?",
+                "${PresetContract.KvEntry.COLUMN_KEY} = ?",
                 arrayOf(key),
                 null,
                 null,
                 null
             ).use {
                 if (!it.moveToFirst()) {
-                    db.insert(ConfigContract.KvEntry.TABLE_NAME, null, ContentValues().apply {
-                        put(ConfigContract.KvEntry.COLUMN_KEY, key)
-                        put(ConfigContract.KvEntry.COLUMN_VALUE, value)
+                    db.insert(PresetContract.KvEntry.TABLE_NAME, null, ContentValues().apply {
+                        put(PresetContract.KvEntry.COLUMN_KEY, key)
+                        put(PresetContract.KvEntry.COLUMN_VALUE, value)
                     })
                 }
                 it.close()
             }
         }
 
-        addDefaultKV("current_config", "1")
-        addDefaultKV("size_locked", "0")
-        addDefaultKV("pos_locked", "0")
+        addDefaultKV(SettingsItem.CURRENT_PRESET, "1")
+        addDefaultKV(SettingsItem.SIZE_LOCKED, "0")
+        addDefaultKV(SettingsItem.POS_LOCKED, "0")
 
         return true
     }
@@ -72,8 +72,8 @@ class SettingsContentProvider : ContentProvider() {
     ): Cursor? {
         val db = dbHelper.readableDatabase
         return when (uriMatcher.match(uri)) {
-            CONFIGS -> db.query(
-                ConfigContract.ConfigEntry.TABLE_NAME,
+            PRESETS -> db.query(
+                PresetContract.PresetEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -83,7 +83,7 @@ class SettingsContentProvider : ContentProvider() {
             )
 
             KV_CONFIG -> db.query(
-                ConfigContract.KvEntry.TABLE_NAME,
+                PresetContract.KvEntry.TABLE_NAME,
                 projection,
                 selection,
                 selectionArgs,
@@ -99,14 +99,14 @@ class SettingsContentProvider : ContentProvider() {
     override fun insert(uri: Uri, values: ContentValues?): Uri {
         val db = dbHelper.writableDatabase
         return when (uriMatcher.match(uri)) {
-            CONFIGS -> {
-                val id = db.insert(ConfigContract.ConfigEntry.TABLE_NAME, null, values)
+            PRESETS -> {
+                val id = db.insert(PresetContract.PresetEntry.TABLE_NAME, null, values)
                 context?.contentResolver?.notifyChange(uri, null)
                 ContentUris.withAppendedId(uri, id)
             }
 
             KV_CONFIG -> {
-                db.replace(ConfigContract.KvEntry.TABLE_NAME, null, values)
+                db.replace(PresetContract.KvEntry.TABLE_NAME, null, values)
                 context?.contentResolver?.notifyChange(uri, null)
                 uri
             }
@@ -120,12 +120,12 @@ class SettingsContentProvider : ContentProvider() {
     ): Int {
         val db = dbHelper.writableDatabase
         return when (uriMatcher.match(uri)) {
-            CONFIGS -> db.update(
-                ConfigContract.ConfigEntry.TABLE_NAME, values, selection, selectionArgs
+            PRESETS -> db.update(
+                PresetContract.PresetEntry.TABLE_NAME, values, selection, selectionArgs
             )
 
             KV_CONFIG -> db.update(
-                ConfigContract.KvEntry.TABLE_NAME, values, selection, selectionArgs
+                PresetContract.KvEntry.TABLE_NAME, values, selection, selectionArgs
             )
 
             else -> throw IllegalArgumentException("Unknown URI: $uri")
@@ -135,9 +135,9 @@ class SettingsContentProvider : ContentProvider() {
     override fun delete(uri: Uri, selection: String?, selectionArgs: Array<out String>?): Int {
         val db = dbHelper.writableDatabase
         return when (uriMatcher.match(uri)) {
-            CONFIGS -> db.delete(ConfigContract.ConfigEntry.TABLE_NAME, selection, selectionArgs)
+            PRESETS -> db.delete(PresetContract.PresetEntry.TABLE_NAME, selection, selectionArgs)
             KV_CONFIG -> db.delete(
-                ConfigContract.KvEntry.TABLE_NAME, selection, selectionArgs
+                PresetContract.KvEntry.TABLE_NAME, selection, selectionArgs
             )
 
             else -> throw IllegalArgumentException("Unknown URI: $uri")
@@ -146,19 +146,19 @@ class SettingsContentProvider : ContentProvider() {
 
     override fun getType(uri: Uri): String {
         return when (uriMatcher.match(uri)) {
-            CONFIGS -> "vnd.android.cursor.dir/${ConfigContract.AUTHORITY}.${ConfigContract.ConfigEntry.TABLE_NAME}"
-            KV_CONFIG -> "vnd.android.cursor.item/${ConfigContract.AUTHORITY}.${ConfigContract.KvEntry.TABLE_NAME}"
+            PRESETS -> "vnd.android.cursor.dir/${PresetContract.AUTHORITY}.${PresetContract.PresetEntry.TABLE_NAME}"
+            KV_CONFIG -> "vnd.android.cursor.item/${PresetContract.AUTHORITY}.${PresetContract.KvEntry.TABLE_NAME}"
             else -> throw IllegalArgumentException("Unknown URI: $uri")
         }
     }
 
     companion object {
-        const val CONFIGS = 1
+        const val PRESETS = 1
         const val KV_CONFIG = 2
 
         val uriMatcher = UriMatcher(UriMatcher.NO_MATCH).apply {
-            addURI(ConfigContract.AUTHORITY, "configs", CONFIGS)
-            addURI(ConfigContract.AUTHORITY, "kv_config", KV_CONFIG)
+            addURI(PresetContract.AUTHORITY, "presets", PRESETS)
+            addURI(PresetContract.AUTHORITY, "kv_config", KV_CONFIG)
         }
     }
 

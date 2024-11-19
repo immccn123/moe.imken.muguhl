@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FirstFragment"
+    tools:context=".MainFragment"
     android:importantForAccessibility="no" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,26 +17,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/preset_selector"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                android:hint="当前预设">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/preset_selector"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+                <AutoCompleteTextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="选择的预设">
+                    android:layout_height="wrap_content"
+                    android:inputType="none" />
 
-                    <AutoCompleteTextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 

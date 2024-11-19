@@ -1,8 +1,7 @@
-package moe.imken.muguhl
+package moe.imken.muguhl.services
 
 import android.annotation.SuppressLint
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
 import android.os.Binder
@@ -12,8 +11,8 @@ import android.view.Gravity
 import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.ImageView
-import moe.imken.muguhl.settings.Config
-import moe.imken.muguhl.settings.ConfigManager
+import moe.imken.muguhl.presets.Preset
+import moe.imken.muguhl.presets.PresetManager
 import kotlin.math.max
 
 class FloatWindowService : Service() {
@@ -50,11 +49,11 @@ class FloatWindowService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        windowManager = applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        windowManager = applicationContext.getSystemService(WINDOW_SERVICE) as WindowManager
         imageView = ImageView(applicationContext)
 
-        val configManager = ConfigManager(applicationContext)
-        val config = configManager.getCurrentConfig()
+        val presetManager = PresetManager(applicationContext)
+        val config = presetManager.getCurrentPreset()
 
         imageView.setBackgroundColor(config.color)
 
@@ -64,7 +63,7 @@ class FloatWindowService : Service() {
         val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
-            @Suppress("DEPRECATION") WindowManager.LayoutParams.TYPE_PHONE
+            @Suppress("DEPRECATION") (WindowManager.LayoutParams.TYPE_PHONE)
         }
 
         val flags =
@@ -80,8 +79,8 @@ class FloatWindowService : Service() {
         windowManager.addView(imageView, layoutParams)
 
         imageView.setOnTouchListener { _, event ->
-            configManager.updateConfig(
-                Config(
+            presetManager.updatePreset(
+                Preset(
                     config.id,
                     config.name,
                     layoutParams.x,

@@ -1,10 +1,10 @@
-package moe.imken.muguhl.settings
+package moe.imken.muguhl.presets
 
-object ConfigContract {
-    const val AUTHORITY = "moe.imken.muguhl.settings.provider"
+object PresetContract {
+    const val AUTHORITY = "moe.imken.muguhl.presets.provider"
 
-    object ConfigEntry {
-        const val TABLE_NAME = "config"
+    object PresetEntry {
+        const val TABLE_NAME = "presets"
         const val COLUMN_ID = "id"
         const val COLUMN_NAME = "name"
         const val COLUMN_X = "x"

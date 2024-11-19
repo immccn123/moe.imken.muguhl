@@ -17,20 +17,19 @@
         android:name=".MuguhlApplication"
         tools:targetApi="31">
         <provider
-            android:name=".settings.SettingsContentProvider"
-            android:authorities="moe.imken.muguhl.settings.provider"
+            android:name=".presets.PresetContentProvider"
+            android:authorities="moe.imken.muguhl.presets.provider"
             android:enabled="true"
             android:exported="false" />
 
         <service
-            android:name=".FloatWindowService"
+            android:name=".services.FloatWindowService"
             android:enabled="true"
             android:exported="true" />
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.RhythmGameHiddenLane">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

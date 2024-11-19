@@ -1,6 +1,6 @@
-package moe.imken.muguhl.settings
+package moe.imken.muguhl.presets
 
-data class Config(
+data class Preset(
     val id: Int,
     val name: String,
     val x: Int,

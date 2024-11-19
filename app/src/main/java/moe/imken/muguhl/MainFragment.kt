@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import android.provider.Settings
-import android.transition.TransitionInflater
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -18,19 +17,17 @@ import android.widget.AutoCompleteTextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.ui.util.fastMap
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import moe.imken.muguhl.databinding.FragmentFirstBinding
-import moe.imken.muguhl.settings.ConfigManager
+import moe.imken.muguhl.databinding.FragmentMainBinding
+import moe.imken.muguhl.services.FloatWindowService
+import moe.imken.muguhl.presets.PresetManager
 
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
-class FirstFragment : Fragment() {
+class MainFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentMainBinding? = null
 
     private val binding get() = _binding!!
-    private lateinit var cm: ConfigManager
+    private lateinit var presetManager: PresetManager
 
     private val requestOverlayPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
@@ -58,38 +55,28 @@ class FirstFragment : Fragment() {
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        val transitionInflater = TransitionInflater.from(requireContext())
-        enterTransition = transitionInflater.inflateTransition(R.transition.fade)
-        exitTransition = transitionInflater.inflateTransition(R.transition.fade)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
-        cm = ConfigManager(requireContext())
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        presetManager = PresetManager(requireContext())
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val autoCompleteTextView = binding.presetSelector.editText as? AutoCompleteTextView
-        val adapter = ArrayAdapter(
-            requireContext(), android.R.layout.simple_dropdown_item_1line, mutableListOf<String>()
-        )
-        refreshData(adapter)
+
         autoCompleteTextView?.apply {
-            setAdapter(adapter)
-            setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    refreshData(adapter)
-                }
+            setOnClickListener {
+                PresetSwitcherFragment {
+                    setText(presetManager.getCurrentPreset().name)
+                }.show(parentFragmentManager, null)
             }
-            setText(cm.getCurrentConfig().name)
+            setText(presetManager.getCurrentPreset().name)
         }
 
         binding.buttonIoCover.setOnClickListener { v ->
@@ -117,12 +104,5 @@ class FirstFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun refreshData(adapter: ArrayAdapter<String>) {
-        val configNames = cm.getAllConfigs().fastMap { it.name }
-        adapter.clear()
-        adapter.addAll(configNames)
-        adapter.notifyDataSetChanged()
     }
 }
