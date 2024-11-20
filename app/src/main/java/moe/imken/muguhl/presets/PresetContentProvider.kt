@@ -161,5 +161,4 @@ class PresetContentProvider : ContentProvider() {
             addURI(PresetContract.AUTHORITY, "kv_config", KV_CONFIG)
         }
     }
-
 }

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainFragment"
-    android:importantForAccessibility="no" >
+    android:importantForAccessibility="no"
+    tools:context=".MainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
                 android:id="@+id/preset_selector"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="当前预设">
 
                 <AutoCompleteTextView
@@ -30,6 +30,37 @@
                     android:inputType="none" />
 
             </com.google.android.material.textfield.TextInputLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.chip.ChipGroup
+                    app:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="锁定位置"
+                        app:chipIcon="@drawable/baseline_gps_fixed_24"
+                        app:chipIconEnabled="true" />
+
+                    <com.google.android.material.chip.Chip
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="锁定大小"
+                        app:chipIcon="@drawable/baseline_crop_free_24"
+                        app:chipIconEnabled="true" />
+                </com.google.android.material.chip.ChipGroup>
+
+
+            </ScrollView>
+
 
         </LinearLayout>
 
